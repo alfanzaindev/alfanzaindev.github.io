@@ -161,7 +161,7 @@
                         classList = 'bg-white'
                     }
 
-                    if (this.currentDay === day.label) {
+                    if (this.currentDay === day.label || (this.currentDay !== day.label && !day.active)) {
                         classList += ' border-opacity-30'
                     } else {
                         classList += ' border-opacity-0'
