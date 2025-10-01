@@ -12,6 +12,23 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="/js/tailwind.config.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        .latex {
+            font-family: "Computer Modern", serif;
+        }
+        .latex .a {
+            font-size: 0.8em;
+            vertical-align: 0.15em;
+            margin-left: -0.36em;
+            margin-right: -0.15em;
+        }
+        .latex .e {
+            vertical-align: -0.5ex;
+            margin-left: -0.1667em;
+            margin-right: -0.125em;
+        }
+    </style>
 </head>
 <body class="max-w-full sm:max-w-sm mx-0 sm:mx-auto bg-white font-inter antialiased">
     <div class="max-w-sm bg-white min-h-screen pt-2" x-data="brilliantApp()">    
@@ -49,12 +66,12 @@
                         <!-- Explanation Text -->
                         <div class="mb-12">
                             <p class="text-black text-base leading-relaxed">
-                                This means the weight of a square is 6/2 = 3
+                                This means the weight of a square is <span class="latex">6/2 = 3</span>
                             </p>
                         </div>
 
 
-                        <div class="flex flex-row justify-between content-center py-6">
+                        <div class="flex flex-row content-center py-6">
                             <!-- Prev Button -->
                             <button @click="prevStep()" 
                                     class="w-12 h-12 rounded-full flex items-center">

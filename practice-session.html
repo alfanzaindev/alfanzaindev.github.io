@@ -57,9 +57,10 @@
                                         :disabled="showIncorrectFeedback"
                                         :class="{
                                             'border-brilliant-blue bg-blue-50': selectedAnswer === option && !showIncorrectFeedback,
-                                            'border-brilliant-red bg-red-50': selectedAnswer === option && showIncorrectFeedback && !isCorrect,
-                                            'border-gray-400 bg-green-50': selectedAnswer !== option && showIncorrectFeedback && option === correctAnswer,
-                                            'border-gray-300': selectedAnswer !== option && (!showIncorrectFeedback || option !== correctAnswer)
+                                            'text-brilliant-red border-brilliant-red bg-red-50': selectedAnswer === option && showIncorrectFeedback && !isCorrect,
+                                            'text-gray-600 border-gray-600 bg-green-50': selectedAnswer !== option && showIncorrectFeedback && option === correctAnswer,
+                                            'border-gray-300': selectedAnswer !== option && (!showIncorrectFeedback || option !== correctAnswer),
+                                            'text-gray-400': answered && option !== selectedAnswer && option !== correctAnswer,
                                         }"
                                         class="w-full border-2 rounded-xl py-3 text-xl font-crimson text-black transition-colors relative">
                                     <span x-text="option"></span>
@@ -67,7 +68,7 @@
                                 
                                 <!-- X icon for incorrect answer -->
                                 <div x-show="selectedAnswer === option && showIncorrectFeedback && !isCorrect"
-                                     class="absolute -top-2 -right-2 w-4 h-4 bg-brilliant-red rounded-md flex items-center justify-center">
+                                     class="absolute -top-1 -right-1 w-4 h-4 bg-brilliant-red rounded-md flex items-center justify-center">
                                     <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path>
                                     </svg>
@@ -75,7 +76,7 @@
                                 
                                 <!-- Check icon for correct answer -->
                                 <div x-show="showIncorrectFeedback && option === correctAnswer"
-                                     class="absolute -top-2 -right-2 w-4 h-4 bg-gray-600 rounded-md flex items-center justify-center">
+                                     class="absolute -top-1 -right-1 w-4 h-4 bg-gray-600 rounded-md flex items-center justify-center">
                                     <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                     </svg>
@@ -93,9 +94,40 @@
                  x-transition:enter-end="opacity-100 translate-y-0"
                  class="bg-gray-100 px-6 py-6">
                 
-                <!-- Sad emoji and Incorrect text -->
                 <div class="flex items-center space-x-3 mb-4">
-                    <div class="text-2xl">😞</div>
+                    <div class="text-2xl">
+                        <img src="/images/icons/hmm.png" class="w-8 h-8">
+                    </div>
+                    <h3 class="text-xl font-bold text-black">Incorrect</h3>
+                </div>
+                
+                <!-- Action buttons -->
+                <div class="flex space-x-4">
+                    <button @click="showExplanation()" 
+                            class="bg-black text-white py-1 px-8 rounded-full font-semibold">
+                        Why?
+                    </button>
+                    <button @click="finishQuestion()" 
+                            class="flex-1 border bg-[#E5E5E5] text-black py-3 px-6 rounded-full font-semibold">
+                        Finish
+                    </button>
+                </div>
+                
+                <!-- Home indicator -->
+                <div class="w-32 h-1 bg-black rounded-full mx-auto mt-4"></div>
+            </div>
+
+            <!-- Correct Feedback Section -->
+            <div x-show="showCorrectFeedback && isCorrect" 
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-y-4"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 class="bg-gray-100 px-6 py-6">
+                
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="text-2xl">
+                        <img src="/images/icons/hmm.png" class="w-8 h-8">
+                    </div>
                     <h3 class="text-xl font-bold text-black">Incorrect</h3>
                 </div>
                 
@@ -132,6 +164,7 @@
             return {
                 progress: 45,
                 streak: 1,
+                answered: false,
                 selectedAnswer: null,
                 showIncorrectFeedback: false,
                 isCorrect: false,
@@ -155,9 +188,11 @@
                         this.progress = Math.min(this.progress + 10, 100);
                         this.streak++;
                         setTimeout(() => {
-                            window.location.href = 'next-question.html';
+                            window.location.href = 'explanation.html';
                         }, 1000);
                     }
+
+                    this.answered = true
                 },
                 
                 showExplanation() {
@@ -165,7 +200,7 @@
                 },
                 
                 finishQuestion() {
-                    window.location.href = 'index.html';
+                    window.location.href = 'practice-complete.html';
                 },
 
                 closeQuestion() {

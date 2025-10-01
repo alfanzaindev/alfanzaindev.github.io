@@ -6,6 +6,7 @@ tailwind.config = {
                 'crimson': ['Crimson Pro', 'serif'],
             },
             colors: {
+                'brilliant-red': '#E5474A',
                 'brilliant-blue': '#0066FF',
                 'brilliant-green': '#2ACC58',
                 'brilliant-orange': '#FF6B35',

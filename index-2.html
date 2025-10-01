@@ -102,7 +102,7 @@
         <!-- Bottom Navigation -->
         <nav class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-sm bg-white border-t border-gray-200">
             <div class="flex justify-around py-3">
-                <button class="flex flex-col items-center space-y-1">
+                <button class="flex flex-col items-center space-y-1" @click="goHome()">
                     <i class="fas fa-home text-black text-xl"></i>
                     <span class="text-xs text-black font-semibold">Home</span>
                 </button>
@@ -149,6 +149,9 @@
                         icon: 'fas fa-chart-pie'
                     },
                 ],
+                goHome() {
+                    window.location.href = 'index.html'
+                },
                 activeDay(day) {
                     let classList = ''
 
