@@ -112,9 +112,6 @@
                         Finish
                     </button>
                 </div>
-                
-                <!-- Home indicator -->
-                <div class="w-32 h-1 bg-black rounded-full mx-auto mt-4"></div>
             </div>
 
             <!-- Correct Feedback Section -->
@@ -122,13 +119,16 @@
                  x-transition:enter="transition ease-out duration-300"
                  x-transition:enter-start="opacity-0 translate-y-4"
                  x-transition:enter-end="opacity-100 translate-y-0"
-                 class="bg-gray-100 px-6 py-6">
+                 class="bg-[#D3F5DD] px-6 py-6">
                 
                 <div class="flex items-center space-x-3 mb-4">
                     <div class="text-2xl">
-                        <img src="/images/icons/hmm.png" class="w-8 h-8">
+                        🎉
                     </div>
-                    <h3 class="text-xl font-bold text-black">Incorrect</h3>
+                    <h3 class="text-xl font-bold text-black">Correct!</h3>
+                    <div class="text-[#11AA3B] font-bold">
+                        +15 XP
+                    </div>
                 </div>
                 
                 <!-- Action buttons -->
@@ -138,17 +138,14 @@
                         Why?
                     </button>
                     <button @click="finishQuestion()" 
-                            class="flex-1 border bg-[#E5E5E5] text-black py-3 px-6 rounded-full font-semibold">
+                            class="flex-1 border bg-[#29CC57] text-white py-3 px-6 rounded-full font-semibold">
                         Finish
                     </button>
                 </div>
-                
-                <!-- Home indicator -->
-                <div class="w-32 h-1 bg-black rounded-full mx-auto mt-4"></div>
             </div>
 
             <!-- Check Button -->
-            <div x-show="!showIncorrectFeedback" class="px-6 mb-8">
+            <div x-show="!showIncorrectFeedback && !showCorrectFeedback" class="px-6 mb-8">
                 <button @click="checkAnswer()" 
                         :disabled="!selectedAnswer"
                         :class="selectedAnswer ? 'bg-black text-white' : 'bg-[#F2F2F2] text-[#9A9A9A] cursor-not-allowed'"
@@ -166,13 +163,14 @@
                 streak: 1,
                 answered: false,
                 selectedAnswer: null,
+                showCorrectFeedback: false,
                 showIncorrectFeedback: false,
                 isCorrect: false,
                 answerOptions: [1, 2, 3, 4],
                 correctAnswer: 3,
                 
                 selectAnswer(option) {
-                    if (!this.showIncorrectFeedback) {
+                    if (!this.showIncorrectFeedback && !this.showCorrectFeedback) {
                         this.selectedAnswer = option;
                     }
                 },
@@ -185,11 +183,10 @@
                     if (!this.isCorrect) {
                         this.showIncorrectFeedback = true;
                     } else {
+                        this.showCorrectFeedback = true;
+
                         this.progress = Math.min(this.progress + 10, 100);
                         this.streak++;
-                        setTimeout(() => {
-                            window.location.href = 'explanation.html';
-                        }, 1000);
                     }
 
                     this.answered = true
