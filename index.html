@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brilliant</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+    </style>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="/js/tailwind.config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="max-w-full sm:max-w-sm mx-0 sm:mx-auto bg-white font-inter antialiased">
+    <div class="max-w-sm mx-5 bg-white min-h-screen pt-2" x-data="brilliantApp()">
+        <!-- Header -->
+        <header class="py-4 mb-1 flex items-center justify-between">
+            <h1 class="text-3xl font-bold text-black">For you</h1>
+
+            <div class="bg-brilliant-yellow rounded-full px-4 py-2 flex items-center space-x-2">
+                <span class="text-black font-bold text-xl" x-text="weeklyStreak.filter(day => day.active).length"></span>
+                <i class="fas fa-bolt text-black text-lg"></i>
+            </div>
+        </header>
+
+        <!-- Weekly Streak -->
+        <div class="mb-3">
+            <div class="px-3 flex justify-between items-center">
+                <template x-for="(day, index) in weeklyStreak" :key="index">
+                    <div class="flex flex-col items-center">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center mb-1 border-2"
+                             :class="day.active ? 'bg-brilliant-yellow border-gray-700 border-opacity-20' : 'bg-white  border-gray-200'">
+                            <i class="fas fa-bolt" 
+                               :class="day.active ? 'text-black' : 'text-gray-200'"></i>
+                        </div>
+                        <span class="text-sm text-black" :class="day.active ? 'font-bold' : ''" x-text="day.label"></span>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- Quick Practice Card -->
+        <div class="mb-4">
+            <div class="bg-brilliant-grayish-yellow rounded-2xl px-4 py-4 border-2 border-b-[6px] border-brilliant-yellow">
+                <div class="flex items-start space-x-4 mb-3">
+                    <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-dumbbell text-white"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-sm font-bold text-black leading-tight">
+                            Sharpen your skills in 3 mins with<br />a quick practice session
+                        </h3>
+                    </div>
+                </div>
+                <button @click="window.location.href = 'loading-practice.html?practice=finding-unknowns'"  class="w-full bg-brilliant-yellow text-black font-medium py-4 rounded-full">
+                    Start practice
+                </button>
+            </div>
+        </div>
+
+        <!-- Jump back in section -->
+        <div class="mb-6">
+            <h2 class="text-xl font-bold text-black mb-4">Jump back in</h2>
+            
+            <!-- Card -->
+            <div class="bg-white p-5 border-2 border-b-[6px] border-brilliant-gray rounded-3xl p-0  overflow-hidden">
+                <!-- Course illustration -->
+                <div class="h-36 mb-3 bg-gradient-to-br from-blue-100 to-purple-100 relative overflow-hidden">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <img src="/images/illustrations/maths/foundational-math.png" 
+                             alt="Course Illustration" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <!-- Course content -->
+                <div class="">
+                    <h3 class="text-xl font-bold text-black mb-3">Foundational Math</h3>
+                    <p class="text-blue-600 font-semibold text-sm">LEVEL 1</p>
+                    <p class="text-lg font-bold text-black mb-3">1.1 Solving Equations</p>
+                    
+                    <!-- Progress bar -->
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-green-500 h-2 rounded-full" style="width: 5%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue learning section -->
+        <div class="mb-20">
+            <h2 class="text-2xl font-bold text-black mb-4">Continue learning</h2>
+            
+            <div class="space-y-4">
+                <template x-for="course in courses" :key="course.id">
+                    <div class="bg-white rounded-2xl shadow-sm">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white"
+                                 :class="course.color">
+                                <i :class="course.icon"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-black" x-text="course.title"></h4>
+                                <p class="text-sm text-gray-500" x-text="course.description"></p>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-sm bg-white border-t border-gray-200">
+            <div class="flex justify-around py-3">
+                <button class="flex flex-col items-center space-y-1">
+                    <i class="fas fa-home text-black text-xl"></i>
+                    <span class="text-xs text-black font-semibold">Home</span>
+                </button>
+                <button class="flex flex-col items-center space-y-1">
+                    <i class="fas fa-book text-gray-400 text-xl"></i>
+                    <span class="text-xs text-gray-400">Courses</span>
+                </button>
+                <button class="flex flex-col items-center space-y-1">
+                    <i class="fas fa-trophy text-gray-400 text-xl"></i>
+                    <span class="text-xs text-gray-400">Leagues</span>
+                </button>
+                <button class="flex flex-col items-center space-y-1">
+                    <i class="fas fa-ellipsis-h text-gray-400 text-xl"></i>
+                    <span class="text-xs text-gray-400">More</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Spacer for bottom navigation -->
+        <div class="h-20"></div>
+    </div>
+
+    <script>
+        function brilliantApp() {
+            return {
+                weeklyStreak: [
+                    { label: 'W', active: true },
+                    { label: 'Th', active: false },
+                    { label: 'F', active: false },
+                    { label: 'S', active: false },
+                    { label: 'Su', active: false }
+                ],
+                courses: [
+                    {
+                        id: 1,
+                        title: 'Mathematical Thinking',
+                        description: 'Learn to wield important tools in number sense and computation.',
+                        color: 'bg-brilliant-blue',
+                        icon: 'fas fa-book'
+                    },
+                    {
+                        id: 2,
+                        title: 'Proportional Reasoning',
+                        description: 'Understand ratios and proportional relationships using visuals and your intuition.',
+                        color: 'bg-brilliant-green',
+                        icon: 'fas fa-chart-pie'
+                    },
+                ]
+            }
+        }
+    </script>
+</body>
+</html>
